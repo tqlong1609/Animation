@@ -3,7 +3,6 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, Animated, useWindowDimensions } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler'
 import { useAnimatedGestureHandler, useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated'
-
 const SPRING_CONFIG = {
     damping: 80,
     overshootClamping: true,
@@ -15,7 +14,8 @@ const SPRING_CONFIG = {
 export default function BottomSheet() {
     const gestureHandle = useAnimatedGestureHandler({
         onActive(event) {
-            top.value = event.translationY
+            console.log("123456");
+            // top.value = event.translationY
         },
     })
     const dimensions = useWindowDimensions()
@@ -27,14 +27,21 @@ export default function BottomSheet() {
             top: top.value
         }
     })
+
+    const pressButton = () => {
+        top.value = withSpring(dimensions.height / 2, SPRING_CONFIG)
+    }
+
+    const _onPanGestureEvent = Animated.event([gestureHandle], { useNativeDriver: false });
+    console.log("123");
     return (
         <View style={styles.container}>
             <Button
                 title="Open Sheet"
-                onPress={() => { top.value = withSpring(dimensions.height / 2, SPRING_CONFIG) }}
+                onPress={pressButton}
             />
             <PanGestureHandler
-                onGestureEvent={gestureHandle}>
+                onGestureEvent={_onPanGestureEvent}>
                 <Animated.View
                     style={
                         [{

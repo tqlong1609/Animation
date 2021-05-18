@@ -9,16 +9,12 @@ export type BottomSheetScrollViewProps = Omit<
   'decelerationRate' | 'onScrollBeginDrag' | 'scrollEventThrottle'
 > & {
   children: React.ReactNode[] | React.ReactNode;
-  /**
-   * This needed when bottom sheet used with multiple scrollables to allow bottom sheet detect the current scrollable ref, especially when used with `React Navigation`. You will need to provide `useFocusEffect` from `@react-navigation/native`.
-   * @type (effect: EffectCallback, deps?: DependencyList) => void
-   */
   focusHook?: (effect: EffectCallback, deps?: DependencyList) => void;
 };
 
 type Constructor<T> = new (...args: any[]) => T;
 
-declare class BottomSheetScrollViewComponent extends Component<BottomSheetScrollViewProps> {}
+declare class BottomSheetScrollViewComponent extends Component<BottomSheetScrollViewProps> { }
 declare const BottomSheetScrollViewBase: Constructor<ScrollResponderMixin> &
   typeof BottomSheetScrollViewComponent;
 

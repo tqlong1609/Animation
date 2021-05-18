@@ -1,22 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useMemo, useCallback, useRef } from 'react';
 import { StyleSheet, Button, View, Text } from 'react-native';
-// import BottomSheet from './BottomSheet'
+import { TouchableOpacity } from 'react-native-gesture-handler';
+// import BottomSheet from './BottomSheet2'
 import BottomSheet, {
   BottomSheetScrollView
 } from './src';
-export default function App() {
+function App() {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   // variables
   const data = useMemo(
     () =>
-      Array(50)
+      Array(20)
         .fill(0)
         .map((_, index) => `index-${index}`),
     []
   );
-  const snapPoints = useMemo(() => ['50%', '90%'], []);
+  const snapPoints = useMemo(() => [0, '50%', '90%'], []);
 
   const handleSnapPress = useCallback(index => {
     bottomSheetRef.current?.snapTo(index);
@@ -30,14 +31,19 @@ export default function App() {
     console.log("change");
   }
 
+  const _onPress = (item: any) => {
+    console.log("123", item);
+  }
   // render
   const renderItem = useCallback(
     (item) => {
       console.log(item);
       return (
-        <View style={styles.itemContainer}>
+        <TouchableOpacity style={styles.itemContainer}
+          onPress={() => _onPress(item)}
+        >
           <Text>{item}</Text>
-        </View>
+        </TouchableOpacity>
       )
     },
     []
@@ -45,8 +51,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Button title="Snap To 90%" onPress={() => handleSnapPress(1)} />
-      <Button title="Snap To 50%" onPress={() => handleSnapPress(0)} />
+      {/* <Button title="Snap To 90%" onPress={() => handleSnapPress(1)} /> */}
+      <Button title="Snap To 50%" onPress={() => handleSnapPress(1)} />
       {/* <Button title="Snap To 25%" onPress={() => handleSnapPress(0)} /> */}
       <Button title="Close" onPress={() => handleClosePress()} />
       <BottomSheet
@@ -59,6 +65,7 @@ export default function App() {
         // contentContainerStyle={styles.contentContainer}
         >
           {data.map(renderItem)}
+
         </BottomSheetScrollView>
       </BottomSheet>
     </View>
@@ -68,7 +75,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -79,3 +86,5 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
 });
+
+export default App

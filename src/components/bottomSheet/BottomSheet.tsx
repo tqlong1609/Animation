@@ -10,7 +10,6 @@ import React, {
   useEffect,
 } from 'react';
 import { ViewStyle } from 'react-native';
-import invariant from 'invariant';
 import Animated, {
   useAnimatedReaction,
   useSharedValue,
@@ -37,7 +36,6 @@ import {
   BottomSheetProvider,
 } from '../../contexts';
 import BottomSheetContainer from '../bottomSheetContainer';
-import BottomSheetBackdropContainer from '../bottomSheetBackdropContainer';
 import BottomSheetHandleContainer from '../bottomSheetHandleContainer';
 import BottomSheetBackgroundContainer from '../bottomSheetBackgroundContainer';
 import BottomSheetDraggableView from '../bottomSheetDraggableView';
@@ -77,11 +75,8 @@ type BottomSheet = BottomSheetMethods;
 
 const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
   (props, ref) => {
-    //#region validate props
     usePropsValidator(props);
-    //#endregion
 
-    //#region extract props
     const {
       // animations configurations
       animationDuration: _providedAnimationDuration = DEFAULT_ANIMATION_DURATION,
@@ -162,7 +157,6 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
       [_providedHandleHeight, handleComponent]
     );
 
-    // refs
     const didSetHandleHeight = useRef(!shouldMeasureHandleHeight);
     const didSetContainerHeight = useRef(!shouldMeasureContainerHeight);
 
@@ -170,12 +164,9 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
       () => {
         return didSetHandleHeight.current && didSetContainerHeight.current;
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [containerHeight, handleHeight]
     );
-    //#endregion
 
-    //#region variables
     const currentIndexRef = useRef<number>(
       animateOnMount ? -1 : _providedIndex
     );
@@ -222,9 +213,6 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
         : snapPoints[currentIndexRef.current];
     }, [snapPoints, animateOnMount, safeContainerHeight, topInset]);
 
-    //#endregion
-
-    //#region private methods
     const refreshUIElements = useCallback(() => {
       const currentPositionIndex = Math.max(currentIndexRef.current, 0);
 
@@ -278,10 +266,7 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
       },
       [setScrollableRef, refreshUIElements]
     );
-    //#endregion
 
-    //#region gesture interaction / animation
-    // variables
     const animatedSheetHeight = useDerivedValue(() => {
       if (
         keyboardBehavior === KEYBOARD_BEHAVIOR.none ||
@@ -501,11 +486,11 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
         animationDuration: number = DEFAULT_ANIMATION_DURATION,
         animationEasing: Animated.EasingFunction = DEFAULT_ANIMATION_EASING
       ) => {
-        invariant(
-          index >= -1 && index <= snapPoints.length - 1,
-          `'index' was provided but out of the provided snap points range! expected value to be between -1, ${snapPoints.length - 1
-          }`
-        );
+        // invariant(
+        //   index >= -1 && index <= snapPoints.length - 1,
+        //   `'index' was provided but out of the provided snap points range! expected value to be between -1, ${snapPoints.length - 1
+        //   }`
+        // );
 
         /**
          * verify if sheet is closed.
@@ -617,9 +602,7 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
       collapse: handleCollapse,
       close: handleClose,
     }));
-    //#endregion
 
-    //#region contexts variables
     const internalContextVariables = useMemo(
       () => ({
         enableContentPanningGesture,
@@ -900,25 +883,9 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
       },
       [handleOnChange]
     );
-    //#endregion
 
-    // render
-    // console.log(
-    //   'BottomSheet',
-    //   'render',
-    //   snapPoints,
-    //   safeContainerHeight,
-    //   safeHandleHeight,
-    //   sheetHeight
-    // );
     return (
       <BottomSheetProvider value={externalContextVariables}>
-        <BottomSheetBackdropContainer
-          key="BottomSheetBackdropContainer"
-          animatedIndex={animatedIndex}
-          animatedPosition={animatedPosition}
-          backdropComponent={backdropComponent}
-        />
         <BottomSheetContainer
           key="BottomSheetContainer"
           containerHeight={safeContainerHeight}

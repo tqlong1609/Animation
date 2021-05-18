@@ -67,9 +67,9 @@ export interface BottomSheetModalMethods extends BottomSheetMethods {
 //#endregion
 
 //#region scrollables
-export type Scrollable = FlatList | ScrollView | SectionList;
+export type Scrollable = ScrollView;
 
-export type ScrollableType = 'FlatList' | 'ScrollView' | 'SectionList' | 'View';
+export type ScrollableType = 'ScrollView'
 
 export type ScrollableRef = {
   id: number;
