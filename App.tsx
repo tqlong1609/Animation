@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useMemo, useCallback, useRef } from 'react';
-import { StyleSheet, Button, View, Text } from 'react-native';
+import { StyleSheet, Button, View, Text, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 // import BottomSheet from './BottomSheet2'
 import BottomSheet, {
@@ -39,11 +39,14 @@ function App() {
     (item) => {
       console.log(item);
       return (
-        <TouchableOpacity style={styles.itemContainer}
-          onPress={() => _onPress(item)}
-        >
-          <Text>{item}</Text>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity style={styles.itemContainer}
+            onPress={() => _onPress(item)}
+          >
+            <Text>{item}</Text>
+          </TouchableOpacity>
+          <TextInput style={{ width: 100, height: 20, backgroundColor: 'yellow' }} />
+        </View>
       )
     },
     []
@@ -55,6 +58,7 @@ function App() {
       <Button title="Snap To 50%" onPress={() => handleSnapPress(1)} />
       {/* <Button title="Snap To 25%" onPress={() => handleSnapPress(0)} /> */}
       <Button title="Close" onPress={() => handleClosePress()} />
+      <TextInput style={{ width: 100, height: 20, backgroundColor: 'blue' }} />
       <BottomSheet
         // style={styles.bottomSheet}
         ref={bottomSheetRef}

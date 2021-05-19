@@ -26,7 +26,6 @@ import { State } from 'react-native-gesture-handler';
 import {
   useInteractivePanGestureHandler,
   useScrollable,
-  usePropsValidator,
   useNormalizedSnapPoints,
   useReactiveSharedValue,
   useKeyboard,
@@ -75,12 +74,8 @@ type BottomSheet = BottomSheetMethods;
 
 const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
   (props, ref) => {
-    usePropsValidator(props);
-
     const {
       // animations configurations
-      animationDuration: _providedAnimationDuration = DEFAULT_ANIMATION_DURATION,
-      animationEasing: _providedAnimationEasing = DEFAULT_ANIMATION_EASING,
       animationConfigs: _providedAnimationConfigs,
 
       // configurations
@@ -120,7 +115,6 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
       onAnimate: _providedOnAnimate,
       // components
       handleComponent,
-      backdropComponent,
       backgroundComponent,
       children,
     } = props;
@@ -407,8 +401,8 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
           animatedPosition.value = animate(
             point,
             {
-              duration: _providedAnimationDuration,
-              easing: _providedAnimationEasing,
+              duration: DEFAULT_ANIMATION_DURATION,
+              easing: DEFAULT_ANIMATION_EASING,
             },
             0,
             animateToPointCompleted
@@ -418,8 +412,8 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
       [
         handleOnAnimate,
         _providedAnimationConfigs,
-        _providedAnimationDuration,
-        _providedAnimationEasing,
+        DEFAULT_ANIMATION_DURATION,
+        DEFAULT_ANIMATION_EASING,
       ]
     );
 
